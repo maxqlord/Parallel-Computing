@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/Users/maxlord/Google Drive/Parallel Computing/Huffman/main.c" "/Users/maxlord/Google Drive/Parallel Computing/Huffman/cmake-build-debug/CMakeFiles/Huffman.dir/main.c.o"
+  "/Users/maxlord/Google Drive/Parallel Computing/Huffman/encode.c" "/Users/maxlord/Google Drive/Parallel Computing/Huffman/cmake-build-debug/CMakeFiles/Huffman.dir/encode.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")
 

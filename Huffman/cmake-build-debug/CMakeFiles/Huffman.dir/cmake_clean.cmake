@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/Huffman.dir/main.c.o"
+  "CMakeFiles/Huffman.dir/encode.c.o"
   "Huffman.pdb"
   "Huffman"
 )
