@@ -15,23 +15,24 @@ int valueinarray(int val, char arr[], int size){
 
 int main(int arr,char* array[])
 {
+    printf("%s", "test");
     FILE* fin;
-    char code[10000];
-    char message[10000];
-    char freq[10000];
-    char all_chars[10000];
+    char code[1000];
+    char message[1000];
+    char freq[1000];
+    char all_chars[1000];
     char ch, key;
 
 
     fin =  fopen( "decodeME.txt" , "r" ); //open txt file
     //NULL THE ARRAY
-    for(int i = 0; i <10000 ; i++)
+    for(int i = 0; i <1000; i++)
     {
         code[i] = message[i] = freq[i] = all_chars[i] = '\0';
     }
 
 
-    int n = 28; //num of lines
+    int n; //num of lines
 
     //read in # of lines value
     while(1) {
@@ -39,7 +40,9 @@ int main(int arr,char* array[])
         //
         if (ch == '\n')
             break;
+        n = (int)ch;
     }
+    printf("%d", n);
 
     //create key
     for(int k = 0; k < n; k++) //for each line of key
@@ -132,4 +135,3 @@ int main(int arr,char* array[])
 
     //minimum number of bits = SUM(frequency * -log2(probability))
 }
-
