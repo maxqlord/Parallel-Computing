@@ -43,40 +43,51 @@ void delay(int number_of_seconds)
 
 // Driver code to test above function
 
-int main( int argc , char* argv[] )
-{
+int main( int argc , char* argv[] ) {
     int rseed;
-    rseed = time( NULL ) ;
-    srand( rseed ) ;
+    rseed = time(NULL);
+    printf("%d", rseed);
+    srand(rseed);
 
-    float threshold = .6; //70% chance of tree
+    float threshold; //70% chance of tree
     char forest[height][width];
-    int treeCounter = 0;
 
-    //forest setup
-    for(int i = 0; i < height; i++)  {
-        for(int j = 0; j < width; j++) {
-            double rand_num = myrand();
-            if(rand_num < threshold) {
-                forest[i][j] = 't';
-                treeCounter+=1;
-            } else{
-                forest[i][j] = ' ';
+    for (int x = 0; x <= 100; x += 5) {
+
+        int time = 0;
+        int stepsSum = 0;
+        float normalized = 0;
+        float theoreticalProb = 0;
+        float actualProb = 0;
+        int treeCounter = 0;
+        threshold = (float) x / 100.0f;
+
+        for(int y = 0; y < 100; y++) {
+
+            time = 0;
+            treeCounter = 0;
+
+
+            //forest setup
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    double rand_num = myrand();
+                    if (rand_num < threshold) {
+                        forest[i][j] = 't';
+                        treeCounter += 1;
+                    } else {
+                        forest[i][j] = ' ';
+                    }
+                }
             }
-        }
-    }
 
 
-            int time = 0;
+
+
             bool fireLit = true;
 
 
-            while (fireLit == true) { //something is very wrong
-
-                int steps;
-                float normalized;
-                float theoreticalProb;
-                float actualProb;
+            while (fireLit == true) {
 
                 fireLit = false;
                 //printf("%d ", fireLit);
@@ -92,9 +103,13 @@ int main( int argc , char* argv[] )
                 if (time == 0) {
 
                     for (int i = 0; i < height; i++) {
-                        forest[i][0] = 'f';
+                        if(temp[i][0] == 't') {
+                            forest[i][0] = 'f';
+                            fireLit = true;
+                        }
+
                     }
-                    fireLit = true;
+
                 }
 
                 //printf("%d ", fireLit);
@@ -133,9 +148,9 @@ int main( int argc , char* argv[] )
                     }
                 }
 
-                delay(50);
-                system("clear");
-                printArr(forest);
+                //delay(50);
+                //system("clear");
+                //printArr(forest);
 
 
                 time += 1;
@@ -143,18 +158,25 @@ int main( int argc , char* argv[] )
                 //printf("%d\n", fireLit);
 
 
-                steps = time;
-                normalized = (float)steps/(float)width;
-                theoreticalProb = threshold*100;
-                actualProb = 100*((float)treeCounter/(float)(height*width));
 
-                printf("Steps: %d\t", steps);
-                printf("Normalized: %f\t", normalized);
-                printf("Theoretical: %f%s\t", theoreticalProb, "%");
-                printf("Actual: %f%s\n", actualProb, "%");
             }
+            stepsSum += time;
+            normalized += (float) time / (float) width;
+            theoreticalProb += threshold * 100;
+            actualProb += ((float) treeCounter / (float) (height * width));
 
+        }
+        printf("Threshold: %f\t", threshold);
+        float steps = (float)stepsSum/100.0f;
+        printf("Steps: %f\t", steps);
+        normalized = normalized / 100.0f;
+        printf("Normalized: %f\t", normalized);
+        theoreticalProb = theoreticalProb / 100.0f;
+        printf("Theoretical: %f%s\t", theoreticalProb, "%");
+        actualProb = actualProb / 100.0f;
+        printf("Actual: %f%s\n", actualProb, "%");
 
+    }
     //
     return 0;
 }
