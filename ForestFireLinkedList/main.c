@@ -6,8 +6,17 @@
 #include <time.h>
 #include <stdbool.h>
 
-int width = 160;
-int height = 120;
+typedef struct ListNode
+{
+    int row ;
+    int col ;
+    //
+    struct ListNode* next ;
+    //
+} Node ;
+
+int width = 40;
+int height = 30;
 
 
 void printArr(char arr[height][width])
@@ -50,7 +59,7 @@ int main( int argc , char* argv[] ) {
     srand(rseed);
 
     float threshold; //70% chance of tree
-    char forest[height][width];
+    Node forest[height][width];
 
     for (int x = 0; x <= 100; x += 5) {
 
