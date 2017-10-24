@@ -24,7 +24,8 @@
 #include <stdio.h>
 // 
 #include "mpi.h"
-// 
+//
+
 int main( int argc , char* argv[] )
 {
     //
@@ -54,16 +55,16 @@ int main( int argc , char* argv[] )
         //
         prob = 0.60 ; // everyone gets the same probability
         //
-        for( j = 1 ; j < size ; j++ )
+        for( j = 1 ; j < size ; j++ ) //for each worker
         {
             MPI_Send( &prob , 1 , MPI_DOUBLE , j , tag , MPI_COMM_WORLD ) ;
         }
         //
         for( k = 1 ; k < size ; k++ )
         {
-            MPI_Recv( &nbt , 1 , MPI_DOUBLE , MPI_ANY_SOURCE , tag , MPI_COMM_WORLD , &status ) ;
+            MPI_Recv( &nbt , 1 , MPI_DOUBLE , MPI_ANY_SOURCE , tag , MPI_COMM_WORLD , &status ) ; //reads returned val into nbt
             //
-            j = status.MPI_SOURCE ;
+            j = status.MPI_SOURCE ; //returns 1-something
             //
             printf( "%d %d %20.16f\n" , j , size , nbt ) ;
         }
