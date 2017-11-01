@@ -166,15 +166,15 @@ int main( int argc , char* argv[] ) {
             actualProb += ((float) treeCounter / (float) (height * width));
 
         }
-        printf("Threshold: %f\t", threshold);
+        //printf("Threshold: %f\t", threshold);
         float steps = (float)stepsSum/100.0f;
-        printf("Steps: %f\t", steps);
+        //printf("Steps: %f\t", steps);
         normalized = normalized / 100.0f;
-        printf("Normalized: %f\t", normalized);
+        //printf("Normalized: %f\t", normalized);
         theoreticalProb = theoreticalProb / 100.0f;
-        printf("Theoretical: %f%s\t", theoreticalProb, "%");
+        //printf("Theoretical: %f%s\t", theoreticalProb, "%");
         actualProb = actualProb / 100.0f;
-        printf("Actual: %f%s\n", actualProb, "%");
+        //printf("Actual: %f%s\n", actualProb, "%");
 
     }
     //

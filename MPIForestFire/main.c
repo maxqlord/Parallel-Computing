@@ -48,14 +48,14 @@ int main( int argc , char* argv[] )
         for(int z = 0; z < size; z++) {
             array[z] = 0;
         }
-        while (prob <= 1.005) {
+        while (prob <= 1.04) {
             for (j = 1; j < size; j++) //for each worker
             {
-                if(prob <= 1.005) {
+                if(prob <= 1.04) {
                     MPI_Send(&prob, 1, MPI_DOUBLE, j, tag, MPI_COMM_WORLD);
                     array[j] = 1;
                     printf("%f\n", prob);
-                    prob += .01;
+                    prob += .05;
                 }
 
             }
