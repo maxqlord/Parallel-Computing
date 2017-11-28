@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/maxlord/Google Drive/Parallel Computing/MPIForestFire/main.c
+stdio.h
+-
+stdlib.h
+-
+stdbool.h
+-
+mpi.h
+/Users/maxlord/Google Drive/Parallel Computing/MPIForestFire/mpi.h
+

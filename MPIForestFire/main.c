@@ -40,7 +40,7 @@ int main( int argc , char* argv[] )
 
     if( rank == 0 ) {
         //printf("%d", size);
-        printf("\n");
+        //printf("\n");
         //
         // everyone gets the same probability
         //
@@ -81,7 +81,7 @@ int main( int argc , char* argv[] )
             //
             //printf("exited3\n");
 
-            printf("\n");
+            //printf("\n");
         }
         prob = 2.0;
         for(int y = 1; y < size; y++) {
