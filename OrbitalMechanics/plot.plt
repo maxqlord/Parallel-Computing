@@ -2,7 +2,7 @@ set terminal png
 #
 set output "orbit.png"
 set size square
-plot "earth.txt" u 0:1 w l title "earth", "earth.txt" u 2:3 w l title "moon","orbit.txt" u 2:3 w l notitle 
+plot "earth.txt" u 1:2 w l title "earth", "earth.txt" u 3:4 w l title "moon","orbit.txt" u 3:4 w l notitle 
 #
 set output "speed.png"
 set size nosquare
