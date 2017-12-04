@@ -36,7 +36,7 @@ int main() {
 
 
 
-    double angle = 125.0;
+    double angle = 115.0;
     x[0] = 202751774*cos(angle * (3.14159265/180.0));
     y[0] = 202751774*sin(angle * (3.14159265/180.0));
 
@@ -57,9 +57,10 @@ int main() {
         int my = moon_location(i, xy)[1];
         r = distance_formula((int)x[i], (int)y[i], mx, my);
         rm[i] = r;
-        if(past == false && distance_formula((int)x[i], (int)y[i], 0, 0) > 384402000.0) {
-            printf("Past moon orbit\n");
-            printf("%d\t%d\t%d\t%d\t%d\n", i, (int)x[i], (int)y[i], mx, my);
+        if(past == false && distance_formula((int)x[i], (int)y[i], 0, 0) > 384402000) {
+            //printf("Past moon orbit\n");
+            //double dist = distance_formula((int)x[i], (int)y[i], 0, 0);
+            //printf("%d\t%d\t%d\t%d\t%d\t%f\n", i, (int)x[i], (int)y[i], mx, my, dist);
             past = true;
 
         }
@@ -72,7 +73,7 @@ int main() {
     }
 
     //printf("X\tY\n");
-    for(int j = 1; j <= n/3; j++) {
+    for(int j = 1; j <= n; j++) {
         printf("%d\t%d\t%f\t%f\t%f\t%f\t%f\t%f\n", 0, j, x[j], y[j], vx[j], vy[j], v[j], rm[j]);
         //tbd N X Y Vx Vy V R
     }
