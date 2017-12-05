@@ -3,10 +3,10 @@
 #include <stdbool.h>
 
 const double dt = 1.0;
-double moon_r = 384402000;
+double moon_r = 384402000;  //	16457848
 double r = 384402000; //earth to moon
-const double duration = 302400;//90*60 //90 minutes: 60 seconds per minute
-double moonOrbit = 2332800;
+const double duration = 604800;//302400;//90*60 //90 minutes: 60 seconds per minute   604800- week
+double moonOrbit = 2358720;
 const int n = (int)(duration / dt);
 double x[n];
 double y[n];
@@ -19,8 +19,8 @@ double distance_formula(int x1, int y1, int x2, int y2) {
     return sqrt(pow(x2-x1, 2) + pow(y2-y1, 2));
 }
 int * moon_location(int time, int* xy) {
-    xy[0] = -1*(int)(moon_r*sin(360*((double)time/moonOrbit) * (3.14159265/180.0)));
-    xy[1] = (int)(moon_r*cos(360*((double)time/moonOrbit)* (3.14159265/180.0)));
+    xy[0] = (int)(moon_r*cos(360*((double)time/moonOrbit) * (3.14159265/180.0)));
+    xy[1] = (int)(moon_r*sin(360*((double)time/moonOrbit)* (3.14159265/180.0)));
     return xy;
 }
 
@@ -36,7 +36,7 @@ int main() {
 
 
 
-    double angle = 115.0;
+    double angle = 35.0;//123.95;  //121 does earth slingshot
     x[0] = 202751774*cos(angle * (3.14159265/180.0));
     y[0] = 202751774*sin(angle * (3.14159265/180.0));
 
@@ -64,11 +64,18 @@ int main() {
             past = true;
 
         }
-        double a = ((-g * M)/ (R*R)) + ((-g * m)/(r*r));
-        double ax = a * (x[i]/R);
-        double ay = a * (y[i]/R);
-        vx[i] = vx[i-1] + ax*dt;
-        vy[i] = vy[i-1] + ay*dt;
+        double aearth = (-g * M)/ (R*R);
+        double amoon = (-g * m)/(r*r);
+        //printf("%f\t%f\n", aearth, amoon);
+        double axearth = aearth * (x[i]/R);
+        double ayearth = aearth * (y[i]/R);
+        double axmoon = amoon * ((x[i]-mx)/r);
+        double aymoon = amoon * ((y[i]-my)/r);
+
+        vx[i] = vx[i-1] + axmoon*dt;
+        vx[i] = vx[i] + axearth*dt;
+        vy[i] = vy[i-1] + aymoon*dt;
+        vy[i] = vy[i] + ayearth*dt;
         v[i] = sqrt(vx[i]*vx[i] + vy[i]*vy[i]);
     }
 
