@@ -10,4 +10,4 @@ plot "orbit.txt" u 2:5 w l title "vx","orbit.txt" u 2:6 w l title "vy","orbit.tx
 #
 set output "distance.png"
 set size nosquare
-plot "orbit.txt" u 2:8 w l title "r", 6.371e+6 w l ls 0 title "R"
+plot "orbit.txt" u 2:8 w l title "r"
