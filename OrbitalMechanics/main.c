@@ -5,7 +5,7 @@
 const double dt = 1.0;
 double moon_r = 384402000;  //	16457848
 double r = 384402000; //earth to moon
-const double duration = 604800;//302400;//90*60 //90 minutes: 60 seconds per minute   604800- week
+const double duration = 804000;//302400;//90*60 //90 minutes: 60 seconds per minute   604800- week
 double moonOrbit = 2358720;
 const int n = (int)(duration / dt);
 double x[n];
@@ -29,14 +29,14 @@ int main() {
 
     double g = 6.67408 * pow(10,-11);
     int altitude = 400000; //meters
-    double velocity = 1527.048; //meters/second //7800 for circular   //12000 for hyperbola
+    double velocity = 1527.048; //meters/second //7800 for circular   //12000 for hyperbola  //1527.048 for free return
     double R = 6371000; //meters
     double M = 5.97219 * pow(10,24); //kg earth
     double m = 7.34767309 * pow(10,22); //kg moon
 
 
 
-    double angle = 35.0;//123.95;  //121 does earth slingshot
+    double angle = 33.0;//123.95;  //35 does earth free return
     x[0] = 202751774*cos(angle * (3.14159265/180.0));
     y[0] = 202751774*sin(angle * (3.14159265/180.0));
 
