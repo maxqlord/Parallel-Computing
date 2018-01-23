@@ -1,21 +1,23 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "mpi.h"
+//    mpicc mpiDemo.c
+//    time mpirun -np 4                                  a.out
+//    time mpirun -np 4 --mca orte_base_help_aggregate 0 a.out
+//    time mpirun -np 4 -mca btl ^openib                 a.out
+//
+//    time mpirun -np 6 -machinefile hosts.txt a.out
 
-const double dt = 1.0;
-double moon_r = 384402000;  //	16457848
-double r = 384402000; //earth to moon
-double moonOrbit = 2358720;
-const double duration = 804000;//302400;//90*60 //90 minutes: 60 seconds per minute   604800- week
 
-const int n = (int)(duration / dt);
+
 double angle = 20.0;
 
 double distance_formula(int x1, int y1, int x2, int y2) {
     return sqrt(pow(x2-x1, 2) + pow(y2-y1, 2));
 }
-int * moon_location(int time, int* xy) {
+int * moon_location(int time, int* xy, double moon_r, double moonOrbit) {
     xy[0] = (int)(moon_r*cos(360*((double)time/moonOrbit) * (3.14159265/180.0)));
     xy[1] = (int)(moon_r*sin(360*((double)time/moonOrbit)* (3.14159265/180.0)));
     return xy;
@@ -34,7 +36,7 @@ int main( int argc , char* argv[] )
     // other variables
     //
     int        k , j, z  ;
-    double     nbt ;
+    int     nbt ;
     //
     // boilerplate
     //
@@ -51,18 +53,19 @@ int main( int argc , char* argv[] )
         //
         // everyone gets the same probability
         //
+        bool found = false;
         int array[size];
         for(int b = 0; b < size; b++) {
             array[b] = 0;
         }
-        while (angle <= 50.0) {
+        while (angle <= 50.0 && found == false) {
             for (j = 1; j < size; j++) //for each worker
             {
                 if(angle <= 50.0) {
                     MPI_Send(&angle, 1, MPI_DOUBLE, j, tag, MPI_COMM_WORLD);
                     array[j] = 1;
-                    printf("%f\n", angle);
-                    angle += .02;
+                    //printf("%f\n", angle);
+                    angle += .01;
                 }
 
             }
@@ -73,12 +76,18 @@ int main( int argc , char* argv[] )
             //get info
             for (k = 1; k < size; k++) {
                 if(array[k] == 1) {
-                    MPI_Recv(&nbt, 1, MPI_DOUBLE, k, tag, MPI_COMM_WORLD, &status); //reads returned val into nbt
+                    MPI_Recv(&nbt, 1, MPI_INT, k, tag, MPI_COMM_WORLD, &status); //reads returned val into nbt
                     //
                     //printf("exitedreceive\n");
                     j = status.MPI_SOURCE; //returns 1-something
                     //
-                    printf("%d %d %20.16f\n", j, size, nbt);
+                    if(nbt == 1) {
+                        found = true;
+                        printf("%d %d %d\n", j, size, nbt);
+                    }
+
+
+
                 }
 
             }
@@ -102,26 +111,31 @@ int main( int argc , char* argv[] )
         //
     else
     {
+        MPI_Recv( &angle , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status ) ;
         //run until it receives certain value
 
-        MPI_Recv( &angle , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status ) ;
-        double moon_r = 384402000;  //	16457848
-        double r = 384402000; //earth to moon
-        double moonOrbit = 2358720;
-        double x[n];
-        double y[n];
-        double vx[n];
-        double vy[n];
-        double v[n];
-        double rm[n]; //apollo to center of moon
-        double g = 6.67408 * pow(10,-11);
-        int altitude = 400000; //meters
-        double velocity = 1527.048; //meters/second //7800 for circular   //12000 for hyperbola  //1527.048 for free return
-        double R = 6371000; //meters
-        double M = 5.97219 * pow(10,24); //kg earth
-        double m = 7.34767309 * pow(10,22); //kg moon
+
 
         while(angle != 100.0) {
+            double dt = 1.0;
+            double moon_r = 384402000;  //	16457848
+            double r = 384402000; //earth to moon
+            double duration = 804000;//302400;//90*60 //90 minutes: 60 seconds per minute   604800- week
+            double moonOrbit = 2358720;
+            int n = (int)(duration / dt);
+
+            double *x = malloc(sizeof(double) * 1000000);
+            double *y = malloc(sizeof(double) * 1000000);
+            double *vx = malloc(sizeof(double) * 1000000);
+            double *vy = malloc(sizeof(double) * 1000000);
+            double *v = malloc(sizeof(double) * 1000000);
+            double *rm = malloc(sizeof(double) * 1000000);
+            double g = 6.67408 * pow(10,-11);
+            int altitude = 400000; //meters
+            double velocity = 1527.048; //meters/second //7800 for circular   //12000 for hyperbola  //1527.048 for free return
+            double R = 6371000; //meters
+            double M = 5.97219 * pow(10,24); //kg earth
+            double m = 7.34767309 * pow(10,22); //kg moon
 
 
             x[0] = 202751774*cos(angle * (3.14159265/180.0));
@@ -140,8 +154,8 @@ int main( int argc , char* argv[] )
                 y[i] = (y[i-1] + (vy[i-1]*dt));
                 R = sqrt(x[i]*x[i] + y[i]*y[i]);
                 int xy[2];
-                int mx = moon_location(i, xy)[0];
-                int my = moon_location(i, xy)[1];
+                int mx = moon_location(i, xy, moon_r, moonOrbit)[0];
+                int my = moon_location(i, xy, moon_r, moonOrbit)[1];
                 r = distance_formula((int)x[i], (int)y[i], mx, my);
                 rm[i] = r;
                 if(past == false && distance_formula((int)x[i], (int)y[i], 0, 0) > 384402000) {
@@ -165,27 +179,40 @@ int main( int argc , char* argv[] )
                 vy[i] = vy[i] + ayearth*dt;
                 v[i] = sqrt(vx[i]*vx[i] + vy[i]*vy[i]);
             }
+            /*
+            //printf("X\tY\n");
+            for(int j = 1; j <= n; j++) {
+                printf("%d\t%d\t%f\t%f\t%f\t%f\t%f\t%f\n", 0, j, x[j], y[j], vx[j], vy[j], v[j], rm[j]);
+                //tbd N X Y Vx Vy V R
+            }*/
 
             //printf("X\tY\n");
             double temp = -1;
-            double answer = 0.0;
+            int answer = 0;
             for(int a = 1; a <= n; a++) {
                 if (x[a] < temp) {
-                    answer = 1.0;
+                    answer = 1;
                     break;
                 }
                 temp = x[a];
+            }
+                /*
+                if(angle == 33.0) {
+                    printf("%f\n", x[a]);
+                }
+                 */
                 //printf("%d\t%d\t%f\t%f\t%f\t%f\t%f\t%f\n", 0, a, x[a], y[a], vx[a], vy[a], v[a], rm[a]);
                 //tbd N X Y Vx Vy V R
-            }
+
 
                 //printf("%f\n", prob);
                 //
                 //printf("exitedforest\n");
 
-            MPI_Send(&answer, 1, MPI_DOUBLE, 0, tag, MPI_COMM_WORLD);
+
+            MPI_Send(&answer, 1, MPI_INT, 0, tag, MPI_COMM_WORLD);
             MPI_Recv( &angle , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD , &status ) ;
-            answer = 0.0;
+            answer = 0;
         }
 
 

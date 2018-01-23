@@ -1,24 +1,13 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
-const double dt = 1.0;
-double moon_r = 384402000;  //	16457848
-double r = 384402000; //earth to moon
-const double duration = 804000;//302400;//90*60 //90 minutes: 60 seconds per minute   604800- week
-double moonOrbit = 2358720;
-const int n = (int)(duration / dt);
-double x[n];
-double y[n];
-double vx[n];
-double vy[n];
-double v[n];
-double rm[n]; //apollo to center of moon
 
 double distance_formula(int x1, int y1, int x2, int y2) {
     return sqrt(pow(x2-x1, 2) + pow(y2-y1, 2));
 }
-int * moon_location(int time, int* xy) {
+int * moon_location(int time, int* xy, double moon_r, double moonOrbit) {
     xy[0] = (int)(moon_r*cos(360*((double)time/moonOrbit) * (3.14159265/180.0)));
     xy[1] = (int)(moon_r*sin(360*((double)time/moonOrbit)* (3.14159265/180.0)));
     return xy;
@@ -26,7 +15,20 @@ int * moon_location(int time, int* xy) {
 
 int main() {
 
+    double dt = 1.0;
+    double moon_r = 384402000;  //	16457848
+    double r = 384402000; //earth to moon
+    double duration = 804000;//302400;//90*60 //90 minutes: 60 seconds per minute   604800- week
+    double moonOrbit = 2358720;
+    int n = (int)(duration / dt);
 
+
+    double *x = malloc(sizeof(double) * 1000000);
+    double *y = malloc(sizeof(double) * 1000000);
+    double *vx = malloc(sizeof(double) * 1000000);
+    double *vy = malloc(sizeof(double) * 1000000);
+    double *v = malloc(sizeof(double) * 1000000);
+    double *rm = malloc(sizeof(double) * 1000000);
     double g = 6.67408 * pow(10,-11);
     int altitude = 400000; //meters
     double velocity = 1527.048; //meters/second //7800 for circular   //12000 for hyperbola  //1527.048 for free return
@@ -53,8 +55,8 @@ int main() {
         y[i] = (y[i-1] + (vy[i-1]*dt));
         R = sqrt(x[i]*x[i] + y[i]*y[i]);
         int xy[2];
-        int mx = moon_location(i, xy)[0];
-        int my = moon_location(i, xy)[1];
+        int mx = moon_location(i, xy, moon_r, moonOrbit)[0];
+        int my = moon_location(i, xy, moon_r, moonOrbit)[1];
         r = distance_formula((int)x[i], (int)y[i], mx, my);
         rm[i] = r;
         if(past == false && distance_formula((int)x[i], (int)y[i], 0, 0) > 384402000) {
@@ -80,31 +82,17 @@ int main() {
     }
 
     //printf("X\tY\n");
+
     for(int j = 1; j <= n; j++) {
         printf("%d\t%d\t%f\t%f\t%f\t%f\t%f\t%f\n", 0, j, x[j], y[j], vx[j], vy[j], v[j], rm[j]);
+
+            //printf("%d\t%d\t%f\t%f\t%f\t%f\t%f\t%f\n", 0, a, x[a], y[a], vx[a], vy[a], v[a], rm[a]);
+            //tbd N X Y Vx Vy V R
+
         //tbd N X Y Vx Vy V R
     }
 
 
-/*
-    double xcor[360*2];
-    double xmcor[360*2];
-    double ycor[360*2];
-    double ymcor[360*2];
-    double R = 6371000.0;
-
-
-    for(int i = 0; i <= 360; i++) {
-        xcor[i] = R*sin(i * (3.14159265/180.0));
-        xmcor[i] = r*sin(i * (3.14159265/180.0));
-        ycor[i] = R*cos(i * (3.14159265/180.0));
-        ymcor[i] = r*cos(i * (3.14159265/180.0));
-    }
-    for(int j = 0; j <= 360; j++) {
-        printf("%f\t%f\t%f\t%f\n", xcor[j],ycor[j],xmcor[j], ymcor[j]);
-    }
-
-    */
 
     return 0;
 
