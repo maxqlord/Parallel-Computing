@@ -1,4 +1,0 @@
-/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/Users/maxlord/Google Drive/Parallel Computing/RayTracing"
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/maxlord/Google Drive/Parallel Computing/RayTracing/cmake-build-debug
