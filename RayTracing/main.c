@@ -2,6 +2,7 @@
 // Torbert, 8 February 2016
 //
 #include <stdio.h>
+#include <math.h>
 //
 #define M 640
 #define N 480
@@ -43,7 +44,7 @@ void diff( triple* t , triple u , triple v ) // t = u - v
 }
 //
 
-void init(circle a[100])
+void init(circle a[4])
 {
     a[0].c.x =      0.50 ;
     a[0].c.y = -20000.00 ; // the floor
@@ -81,10 +82,10 @@ void init(circle a[100])
 int main(void) {
 
     int rgb[N][M][3]; // red-green-blue for each pixel
-    circle a[100];
+    circle array[4];
     triple e = { 0.50 , 0.50 , -1.00 } ; // the eye
     //
-    init(a);
+    init(array);
     int y, x;
     //
     FILE *fout;
@@ -93,15 +94,73 @@ int main(void) {
         for (x = 0; x < M; x++) {
 
             //int discriminant = b * b - 4 * a * c
-            rgb[y][x][0] = 0; // red
-            rgb[y][x][1] = 255; // green
-            rgb[y][x][2] = 0; // blue
+            //rgb[y][x][0] = 0; // red
+            //rgb[y][x][1] = 255; // green
+            //rgb[y][x][2] = 0; // blue
+
+            double px = 1.0*x/M;
+            double py = 1-(1.0*y/N);
+            double pz = 0.0;
+
+            double rx = px - e.x;
+            double ry = py - e.y;
+            double rz = pz - e.z;
+
+            double magnitude = sqrt(rx*rx + ry*ry + rz*rz);
+
+            rx /= magnitude;
+            ry /= magnitude;
+            rz /= magnitude;
+
+
+            int sphere = -1;
+            double tmin;
+            for(int s = 0; s < 4; s++)
+            {
+                double a, b, c;
+                a = 1.0;
+                b = 2*(rx*(e.x - array[s].c.x) + ry*(e.y - array[s].c.y) + rz*(e.z - array[s].c.z));
+                c = pow((e.x - array[s].c.x), 2) + pow((e.y - array[s].c.y), 2) + pow((e.z - array[s].c.z), 2) -(array[s].r * array[s].r);
+                double t;
+                if(pow(b, 2) - 4*a*c > 0)
+                {
+                    double t1 = (-b - sqrt(b*b - 4*a*c))/(2 * a);
+                    double t2 = (-b + sqrt(b*b - 4*a*c))/(2 * a);
+                    if(t1 > 0 && t2 > 0) {
+                        t = fmin(t1, t2);
+                    }
+
+
+                    if(sphere < 0 || t < tmin)
+                    {
+                        sphere = s;
+                        tmin = t;
+                    }
+                }
+            }
+            if(sphere == -1)
+            {
+                rgb[y][x][0] = 0;
+                rgb[y][x][1] = 0;
+                rgb[y][x][2] = 0;
+            }
+            else
+            {
+                rgb[y][x][0] = array[sphere].h.r;
+                rgb[y][x][1] = array[sphere].h.g;
+                rgb[y][x][2] = array[sphere].h.b;
+            }
+
+
         }
+
     }
+
     //
     //
     //
-    fout = fopen("allgreen.ppm", "w");
+    //fout = fopen("allgreen.ppm", "w");
+    fout = fopen("circles.ppm", "w");
     //
     fprintf(fout, "P3\n");
     fprintf(fout, "%d %d\n", M, N);
@@ -119,6 +178,8 @@ int main(void) {
     //
     return 0;
 }
+
+
 
 //a = 1.0
 //b = 2dxrx + 2dyry + 2dzrz
