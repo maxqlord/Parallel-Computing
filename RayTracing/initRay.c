@@ -24,7 +24,7 @@ void diff( triple* t , triple u , triple v ) // t = u - v
     t->z = u.z - v.z ;
 }
 //
-/*
+
 void init()
 {
     a[0].c.x =      0.50 ;
@@ -58,7 +58,7 @@ void init()
     a[3].h.r =    255    ; // color is Red
     a[3].h.g =      0    ;
     a[3].h.b =      0    ;
-}*/
+}
 //
 // end of file
 //
