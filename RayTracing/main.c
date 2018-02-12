@@ -98,7 +98,7 @@ int main(void) {
             //rgb[y][x][1] = 255; // green
             //rgb[y][x][2] = 0; // blue
 
-            double px = 1.0*x/M;
+            double px = 1.333*x/M;
             double py = 1-(1.0*y/N);
             double pz = 0.0;
 
@@ -128,10 +128,17 @@ int main(void) {
                     double t2 = (-b + sqrt(b*b - 4*a*c))/(2 * a);
                     if(t1 > 0 && t2 > 0) {
                         t = fmin(t1, t2);
+                    } else if(t2 > 0) {
+                        t = t2;
+                    }
+                    else if(t1 > 0) {
+                        t = t1;
+                    } else {
+                        t = fmax(t1, t2);
                     }
 
 
-                    if(sphere < 0 || t < tmin)
+                    if((sphere < 0 || t < tmin)  && t > 0)
                     {
                         sphere = s;
                         tmin = t;
