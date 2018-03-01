@@ -10,26 +10,26 @@
 #define M 640
 #define N 480
 //
-typedef struct triple{
+typedef struct triple {
     double x;
     double y;
     double z;
     //
 } triple;
 
-typedef struct vector{
+typedef struct vector {
     double x;
     double y;
     double z;
 } vector;  //(x-sphere x)/sphere radius, (y-sphere y)/sphere radius, (z-sphere z)
 
-typedef struct ray{
+typedef struct ray {
     int sphere;
     triple pixel;
     vector normal;
 } ray;
 
-typedef struct color{
+typedef struct color {
     int r;
     int g;
     int b;
@@ -46,52 +46,51 @@ typedef struct {
 
 //triple g = { 0.00 , 1.25 , -0.50 } ; // the light
 
-double dotp( triple t , triple u )
-{
-    return t.x * u.x + t.y * u.y + t.z * u.z ;
+double dotp(triple t, triple u) {
+    return t.x * u.x + t.y * u.y + t.z * u.z;
 }
+
 //
-void diff( triple* t , triple u , triple v ) // t = u - v
+void diff(triple *t, triple u, triple v) // t = u - v
 {
-    t->x = u.x - v.x ;
-    t->y = u.y - v.y ;
-    t->z = u.z - v.z ;
+    t->x = u.x - v.x;
+    t->y = u.y - v.y;
+    t->z = u.z - v.z;
 }
 //
 
-void init(circle a[])
-{
-    a[0].c.x =      0.50 ;
-    a[0].c.y = -20000.00 ; // the floor
-    a[0].c.z =      0.50 ;
-    a[0].r   =  20000.25 ;
-    a[0].h.r =    205    ; // color is Peru
-    a[0].h.g =    133    ;
-    a[0].h.b =     63    ;
+void init(circle a[]) {
+    a[0].c.x = 0.50;
+    a[0].c.y = -20000.00; // the floor
+    a[0].c.z = 0.50;
+    a[0].r = 20000.25;
+    a[0].h.r = 205; // color is Peru
+    a[0].h.g = 133;
+    a[0].h.b = 63;
     //
-    a[1].c.x =      0.50 ;
-    a[1].c.y =      0.50 ;
-    a[1].c.z =      0.50 ;
-    a[1].r   =      0.25 ;
-    a[1].h.r =      0    ; // color is Blue
-    a[1].h.g =      0    ;
-    a[1].h.b =    255    ;
+    a[1].c.x = 0.50;
+    a[1].c.y = 0.50;
+    a[1].c.z = 0.50;
+    a[1].r = 0.25;
+    a[1].h.r = 0; // color is Blue
+    a[1].h.g = 0;
+    a[1].h.b = 255;
     //
-    a[2].c.x =      1.00 ;
-    a[2].c.y =      0.50 ;
-    a[2].c.z =      1.00 ;
-    a[2].r   =      0.25 ;
-    a[2].h.r =      0    ; // color is Green
-    a[2].h.g =    255    ;
-    a[2].h.b =      0    ;
+    a[2].c.x = 1.00;
+    a[2].c.y = 0.50;
+    a[2].c.z = 1.00;
+    a[2].r = 0.25;
+    a[2].h.r = 0; // color is Green
+    a[2].h.g = 255;
+    a[2].h.b = 0;
     //
-    a[3].c.x =      0.00 ;
-    a[3].c.y =      0.75 ;
-    a[3].c.z =      1.25 ;
-    a[3].r   =      0.50 ;
-    a[3].h.r =    255    ; // color is Red
-    a[3].h.g =      0    ;
-    a[3].h.b =      0    ;
+    a[3].c.x = 0.00;
+    a[3].c.y = 0.75;
+    a[3].c.z = 1.25;
+    a[3].r = 0.50;
+    a[3].h.r = 255; // color is Red
+    a[3].h.g = 0;
+    a[3].h.b = 0;
 }
 
 int main(void) {
@@ -100,8 +99,8 @@ int main(void) {
     int arr_length = 4;
     double floor = 0;
     circle array[arr_length];
-    triple e = { 0.50 , 0.50 , -1.00 } ; // the eye
-    triple l = { 0.00 , 1.25 , -0.50 } ; // the light
+    triple e = {0.50, 0.50, -1.00}; // the eye
+    triple l = {0.00, 1.25, -0.50}; // the light
     //
     init(array);
     int y, x;
@@ -116,15 +115,15 @@ int main(void) {
             //rgb[y][x][1] = 255; // green
             //rgb[y][x][2] = 0; // blue
 
-            double px = 1.333*x/M;
-            double py = 1-(1.0*y/N);
+            double px = 1.333 * x / M;
+            double py = 1 - (1.0 * y / N);
             double pz = 0.0;
 
             double rx = px - e.x;
             double ry = py - e.y;
             double rz = pz - e.z;
 
-            double magnitude = sqrt(rx*rx + ry*ry + rz*rz);
+            double magnitude = sqrt(rx * rx + ry * ry + rz * rz);
 
             rx /= magnitude;
             ry /= magnitude;
@@ -133,220 +132,146 @@ int main(void) {
 
             int sphere = -1;
             double tmin;
-            for(int s = 0; s < arr_length; s++)
-            {
+            for (int s = 0; s < arr_length; s++) {
                 double a, b, c;
                 a = 1.0;
-                b = 2*(rx*(e.x - array[s].c.x) + ry*(e.y - array[s].c.y) + rz*(e.z - array[s].c.z));
-                c = pow((e.x - array[s].c.x), 2) + pow((e.y - array[s].c.y), 2) + pow((e.z - array[s].c.z), 2) -(array[s].r * array[s].r);
+                b = 2 * (rx * (e.x - array[s].c.x) + ry * (e.y - array[s].c.y) + rz * (e.z - array[s].c.z));
+                c = pow((e.x - array[s].c.x), 2) + pow((e.y - array[s].c.y), 2) + pow((e.z - array[s].c.z), 2) -
+                    (array[s].r * array[s].r);
                 double t;
-                if(pow(b, 2) - 4*a*c > 0)
-                {
-                    double t1 = (-b - sqrt(b*b - 4*a*c))/(2 * a);
-                    double t2 = (-b + sqrt(b*b - 4*a*c))/(2 * a);
-                    if(t1 > 0 && t2 > 0) {
+                if (pow(b, 2) - 4 * a * c > 0) {
+                    double t1 = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
+                    double t2 = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
+                    if (t1 > 0 && t2 > 0) {
                         t = fmin(t1, t2);
-                    } else if(t2 > 0) {
+                    } else if (t2 > 0) {
                         t = t2;
-                    }
-                    else if(t1 > 0) {
+                    } else if (t1 > 0) {
                         t = t1;
                     } else {
                         t = fmax(t1, t2);
                     }
 
 
-                    if((sphere < 0 || t < tmin)  && t > 0)
-                    {
+                    if ((sphere < 0 || t < tmin) && t > 0) {
                         sphere = s;
                         tmin = t;
                     }
                 }
             }
 
-            if(sphere == -1)
-            {
+            double red;
+            double green;
+            double blue;
+            if(sphere == -1) {
+                red = 0.0;
+                green = 0.0;
+                blue = 0.0;
+                rgb[y][x][0] = (int) red;
+                rgb[y][x][1] = (int) green;
+                rgb[y][x][2] = (int) blue;
+            } else {
 
-                //    floor calculations
+                //in here perform checking for shadow/light source
+                red = array[sphere].h.r;
+                green = array[sphere].h.g;
+                blue = array[sphere].h.b;
+                double xi, yi, zi;
+                xi = e.x + tmin * rx;
+                yi = e.y + tmin * ry;
+                zi = e.z + tmin * rz;
 
-                tmin=(floor-e.y)/ry;
-
-                if(tmin > 0.0)
-                {
-                    double xi, yi, zi;
-                    xi = e.x + tmin*rx;
-                    yi = floor;
-                    zi = e.z + tmin*rz;
-                    double red, green, blue;
-                    if(((int)(xi/0.1 + 9999) + (int)(zi/0.1 + 9999)) %2 == 0)
-                    {
+                if (sphere == 0) {
+                    // xi zi -> 2nd color
+                    if (((int) (xi / 0.1 + 9999) + (int) (zi / 0.1 + 9999)) % 2 == 0) {  //checker 1
                         red = 255.0;
                         green = 0.0;
-                        blue =  255.0;
-                    }
-                    else
-                    {
-                        red = 255.0;
-                        green = 255.0;
                         blue = 0.0;
+                    } else {  //checker 2
+                        red = 0.0;
+                        green = 0.0;
+                        blue = 255.0;
                     }
-                    double Lx = l.x - xi;
-                    double Ly = l.y - yi;
-                    double Lz = l.z - zi;
 
-                    double lmagnitude = sqrt(Lx*Lx + Ly*Ly + Lz*Lz);
-
-                    Lx /= lmagnitude;
-                    Ly /= lmagnitude;
-                    Lz /= lmagnitude;
-                    int sphereShadow = -1;
-                    int s;
-                    double tminShadow;
-                    for(s = 0; s < arr_length; ++s)
-                    {
-                        double a, b, c;
-                        a = 1.0;
-                        b = 2*(Lx*(xi - array[s].c.x) + Ly*(yi - array[s].c.y) + Lz*(zi - array[s].c.z));
-                        c = pow((xi - array[s].c.x), 2) + pow((yi - array[s].c.y), 2) + pow((zi - array[s].c.z), 2) -(array[s].r * array[s].r);
-                        double t;
-                        if(pow(b, 2) - 4*a*c > 0)
-                        {
-                            double t1 = (-b - sqrt(b*b - 4*a*c))/(2 * a);
-                            double t2 = (-b + sqrt(b*b - 4*a*c))/(2 * a);
-                            if(t1 > 0 && t2 > 0) {
-                                t = fmin(t1, t2);
-                            } else if(t2 > 0) {
-                                t = t2;
-                            }
-                            else if(t1 > 0) {
-                                t = t1;
-                            } else {
-                                t = fmax(t1, t2);
-                            }
-
-
-                            if((sphereShadow < 0 || t < tminShadow)  && t > 0)
-                            {
-                                sphereShadow = s;
-                                tminShadow = t;
-                            }
-                        }
-                    }
-                    red *= 0.5;
-                    green *= 0.5;
-                    blue *= 0.5;
-                    if(sphereShadow == -1)
-                    {
-                        double nx = 0;
-                        double ny = 1;
-                        double nz = 0;
-                        double dot = (nx * Lx) + (ny * Ly) + (nz * Lz);
-                        if(dot > 0)
-                        {
-                            red += 0.5*dot*255.0;
-                            blue += 0.5*dot*0;
-                            green += 0.5*dot*255.0;
-                        }
-                        rgb[y][x][0] = (int)red;
-                        rgb[y][x][1] = (int)green;
-                        rgb[y][x][2] = (int)blue;
-                    }
-                    else
-                    {
-                        rgb[y][x][0] = (int)red;
-                        rgb[y][x][1] = (int)green;
-                        rgb[y][x][2] = (int)blue;
-                    }
                 }
-                else
-                {
-                    rgb[y][x][0] = 0;
-                    rgb[y][x][1] = 0;
-                    rgb[y][x][2] = 0;
-                }
-            }
-            else
-            {
-                //in here perform checking for shadow/light source
-                double red = array[sphere].h.r;
-                double green = array[sphere].h.g;
-                double blue = array[sphere].h.b;
-                double xi, yi, zi;
-                xi = e.x + tmin*rx;
-                yi = e.y + tmin*ry;
-                zi = e.z + tmin*rz;
+
+
                 double Lx = l.x - xi;
                 double Ly = l.y - yi;
                 double Lz = l.z - zi;
 
-                double lmagnitude = sqrt(Lx*Lx + Ly*Ly + Lz*Lz);
+                double nx = (xi - array[sphere].c.x) / array[sphere].r;
+                double ny = (yi - array[sphere].c.y) / array[sphere].r;
+                double nz = (zi - array[sphere].c.z) / array[sphere].r;
+                xi += (nx * .001);
+                yi += (ny * .001);
+                zi += (nz * .001);
+
+                /*if(dot > 0)
+                {
+                    red += 0.5*dot*array[sphere].h.r;
+                    blue += 0.5*dot*array[sphere].h.b;
+                    green += 0.5*dot*array[sphere].h.g;
+                }*/
+
+                double lmagnitude = sqrt(Lx * Lx + Ly * Ly + Lz * Lz);
 
                 Lx /= lmagnitude;
                 Ly /= lmagnitude;
                 Lz /= lmagnitude;
+                double dot = (nx * Lx) + (ny * Ly) + (nz * Lz);
 
                 int sphereShadow = -1;
                 int s;
                 double tminShadow;
-                for(s = 0; s < arr_length; ++s)
-                {
+                for (s = 0; s < arr_length; ++s) {
                     double a, b, c;
                     a = 1.0;
-                    b = 2*(Lx*(xi - array[s].c.x) + Ly*(yi - array[s].c.y) + Lz*(zi - array[s].c.z));
-                    c = pow((xi - array[s].c.x), 2) + pow((yi - array[s].c.y), 2) + pow((zi - array[s].c.z), 2) -(array[s].r * array[s].r);
+                    b = 2 * (Lx * (xi - array[s].c.x) + Ly * (yi - array[s].c.y) + Lz * (zi - array[s].c.z));
+                    c = pow((xi - array[s].c.x), 2) + pow((yi - array[s].c.y), 2) + pow((zi - array[s].c.z), 2) -
+                        (array[s].r * array[s].r);
                     double t;
-                    if(pow(b, 2) - 4*a*c > 0)
-                    {
-                        double t1 = (-b - sqrt(b*b - 4*a*c))/(2 * a);
-                        double t2 = (-b + sqrt(b*b - 4*a*c))/(2 * a);
-                        if(t1 > 0 && t2 > 0) {
+                    if (pow(b, 2) - 4 * a * c > 0) {
+                        double t1 = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
+                        double t2 = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
+                        if (t1 > 0 && t2 > 0) {
                             t = fmin(t1, t2);
-                        } else if(t2 > 0) {
+                        } else if (t2 > 0) {
                             t = t2;
-                        }
-                        else if(t1 > 0) {
+                        } else if (t1 > 0) {
                             t = t1;
                         } else {
                             t = fmax(t1, t2);
                         }
 
 
-                        if((sphereShadow < 0 || t < tminShadow)  && t > 0)
-                        {
+                        if ((sphereShadow < 0 || t < tminShadow) && t > 0) {
                             sphereShadow = s;
                             tminShadow = t;
                         }
                     }
 
                 }
-                red *= 0.5;
-                green *= 0.5;
-                blue *= 0.5;
-                if(sphereShadow == -1)
-                {
-                    double nx = (xi - array[sphere].c.x)/array[sphere].r;
-                    double ny = (yi - array[sphere].c.y)/array[sphere].r;
-                    double nz = (zi - array[sphere].c.z)/array[sphere].r;
-                    double dot = (nx * Lx) + (ny * Ly) + (nz * Lz);
-                    if(dot > 0)
-                    {
-                        red += 0.5*dot*array[sphere].h.r;
-                        blue += 0.5*dot*array[sphere].h.b;
-                        green += 0.5*dot*array[sphere].h.g;
+
+
+                if (sphereShadow == -1) {
+                    if (dot < 0.0) {
+                        dot = 0.0;
                     }
-                    rgb[y][x][0] = (int)red;
-                    rgb[y][x][1] = (int)green;
-                    rgb[y][x][2] = (int)blue;
-                }
-                else
-                {
-                    rgb[y][x][0] = (int)red;
-                    rgb[y][x][1] = (int)green;
-                    rgb[y][x][2] = (int)blue;
+                    rgb[y][x][0] = (int) (red * 0.5 + red * 0.5 * dot);
+                    rgb[y][x][1] = (int) (green * 0.5 + green * 0.5 * dot);
+                    rgb[y][x][2] = (int) (blue * 0.5 + blue * 0.5 * dot);
+                } else {
+                    red *= 0.5;
+                    green *= 0.5;
+                    blue *= 0.5;
+                    rgb[y][x][0] = (int) red;
+                    rgb[y][x][1] = (int) green;
+                    rgb[y][x][2] = (int) blue;
                 }
             }
-
         }
+
 
     }
     //
