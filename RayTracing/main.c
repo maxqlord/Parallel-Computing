@@ -7,14 +7,26 @@
 #define M 640
 #define N 480
 //
-typedef struct {
+typedef struct triple{
     double x;
     double y;
     double z;
     //
 } triple;
 
-typedef struct {
+typedef struct vector{
+    double x;
+    double y;
+    double z;
+} vector;  //(x-sphere x)/sphere radius, (y-sphere y)/sphere radius, (z-sphere z)
+
+typedef struct ray{
+    int sphere;
+    triple pixel;
+    vector normal;
+} ray;
+
+typedef struct color{
     int r;
     int g;
     int b;
@@ -84,6 +96,7 @@ int main(void) {
     int rgb[N][M][3]; // red-green-blue for each pixel
     circle array[4];
     triple e = { 0.50 , 0.50 , -1.00 } ; // the eye
+    triple g = { 0.00 , 1.25 , -0.50 } ; // the light
     //
     init(array);
     int y, x;
@@ -196,3 +209,8 @@ int main(void) {
 //
 // end of file
 //
+
+
+// get pixel color method- cast_ray from eye to pixel and return color
+    //if it hits floor then return checkerboard
+    //else hit the sphere

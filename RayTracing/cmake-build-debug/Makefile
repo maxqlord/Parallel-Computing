@@ -177,6 +177,33 @@ main.c.s:
 	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/main.c.s
 .PHONY : main.c.s
 
+shadow.o: shadow.c.o
+
+.PHONY : shadow.o
+
+# target to build an object file
+shadow.c.o:
+	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/shadow.c.o
+.PHONY : shadow.c.o
+
+shadow.i: shadow.c.i
+
+.PHONY : shadow.i
+
+# target to preprocess a source file
+shadow.c.i:
+	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/shadow.c.i
+.PHONY : shadow.c.i
+
+shadow.s: shadow.c.s
+
+.PHONY : shadow.s
+
+# target to generate assembly for a file
+shadow.c.s:
+	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/shadow.c.s
+.PHONY : shadow.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -192,6 +219,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... shadow.o"
+	@echo "... shadow.i"
+	@echo "... shadow.s"
 .PHONY : help
 
 
