@@ -86,6 +86,9 @@
 		<Unit filename="/Users/maxlord/Google Drive/Parallel Computing/RayTracing/main.c">
 			<Option target="RayTracing"/>
 		</Unit>
+		<Unit filename="/Users/maxlord/Google Drive/Parallel Computing/RayTracing/movie.c">
+			<Option target="RayTracing"/>
+		</Unit>
 		<Unit filename="/Users/maxlord/Google Drive/Parallel Computing/RayTracing/shadow.c">
 			<Option target="RayTracing"/>
 		</Unit>

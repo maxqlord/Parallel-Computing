@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_C
   "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/initRay.c" "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/cmake-build-debug/CMakeFiles/RayTracing.dir/initRay.c.o"
   "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/main.c" "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/cmake-build-debug/CMakeFiles/RayTracing.dir/main.c.o"
+  "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/movie.c" "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/cmake-build-debug/CMakeFiles/RayTracing.dir/movie.c.o"
   "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/shadow.c" "/Users/maxlord/Google Drive/Parallel Computing/RayTracing/cmake-build-debug/CMakeFiles/RayTracing.dir/shadow.c.o"
   )
 set(CMAKE_C_COMPILER_ID "AppleClang")

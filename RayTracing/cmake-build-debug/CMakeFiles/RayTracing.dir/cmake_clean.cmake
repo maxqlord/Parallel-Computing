@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/RayTracing.dir/main.c.o"
   "CMakeFiles/RayTracing.dir/initRay.c.o"
   "CMakeFiles/RayTracing.dir/shadow.c.o"
+  "CMakeFiles/RayTracing.dir/movie.c.o"
   "RayTracing.pdb"
   "RayTracing"
 )

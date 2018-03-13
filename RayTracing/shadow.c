@@ -17,18 +17,6 @@ typedef struct triple {
     //
 } triple;
 
-typedef struct vector {
-    double x;
-    double y;
-    double z;
-} vector;  //(x-sphere x)/sphere radius, (y-sphere y)/sphere radius, (z-sphere z)
-
-typedef struct ray {
-    int sphere;
-    triple pixel;
-    vector normal;
-} ray;
-
 typedef struct color {
     int r;
     int g;

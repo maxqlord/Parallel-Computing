@@ -177,6 +177,33 @@ main.c.s:
 	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/main.c.s
 .PHONY : main.c.s
 
+movie.o: movie.c.o
+
+.PHONY : movie.o
+
+# target to build an object file
+movie.c.o:
+	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/movie.c.o
+.PHONY : movie.c.o
+
+movie.i: movie.c.i
+
+.PHONY : movie.i
+
+# target to preprocess a source file
+movie.c.i:
+	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/movie.c.i
+.PHONY : movie.c.i
+
+movie.s: movie.c.s
+
+.PHONY : movie.s
+
+# target to generate assembly for a file
+movie.c.s:
+	$(MAKE) -f CMakeFiles/RayTracing.dir/build.make CMakeFiles/RayTracing.dir/movie.c.s
+.PHONY : movie.c.s
+
 shadow.o: shadow.c.o
 
 .PHONY : shadow.o
@@ -219,6 +246,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... movie.o"
+	@echo "... movie.i"
+	@echo "... movie.s"
 	@echo "... shadow.o"
 	@echo "... shadow.i"
 	@echo "... shadow.s"
