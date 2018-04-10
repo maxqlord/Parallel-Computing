@@ -3,4 +3,4 @@ project(OpenGL C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(OpenGL fireGL.c)
+add_executable(OpenGL fireGL.c main.c)

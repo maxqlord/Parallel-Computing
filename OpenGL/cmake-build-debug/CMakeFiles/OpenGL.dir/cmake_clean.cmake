@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/OpenGL.dir/fireGL.c.o"
   "CMakeFiles/OpenGL.dir/main.c.o"
   "OpenGL.pdb"
   "OpenGL"

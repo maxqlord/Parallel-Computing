@@ -123,6 +123,33 @@ OpenGL/fast:
 	$(MAKE) -f CMakeFiles/OpenGL.dir/build.make CMakeFiles/OpenGL.dir/build
 .PHONY : OpenGL/fast
 
+fireGL.o: fireGL.c.o
+
+.PHONY : fireGL.o
+
+# target to build an object file
+fireGL.c.o:
+	$(MAKE) -f CMakeFiles/OpenGL.dir/build.make CMakeFiles/OpenGL.dir/fireGL.c.o
+.PHONY : fireGL.c.o
+
+fireGL.i: fireGL.c.i
+
+.PHONY : fireGL.i
+
+# target to preprocess a source file
+fireGL.c.i:
+	$(MAKE) -f CMakeFiles/OpenGL.dir/build.make CMakeFiles/OpenGL.dir/fireGL.c.i
+.PHONY : fireGL.c.i
+
+fireGL.s: fireGL.c.s
+
+.PHONY : fireGL.s
+
+# target to generate assembly for a file
+fireGL.c.s:
+	$(MAKE) -f CMakeFiles/OpenGL.dir/build.make CMakeFiles/OpenGL.dir/fireGL.c.s
+.PHONY : fireGL.c.s
+
 main.o: main.c.o
 
 .PHONY : main.o
@@ -159,6 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... OpenGL"
+	@echo "... fireGL.o"
+	@echo "... fireGL.i"
+	@echo "... fireGL.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

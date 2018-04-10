@@ -80,6 +80,9 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/Users/maxlord/Google Drive/Parallel Computing/OpenGL/fireGL.c">
+			<Option target="OpenGL"/>
+		</Unit>
 		<Unit filename="/Users/maxlord/Google Drive/Parallel Computing/OpenGL/main.c">
 			<Option target="OpenGL"/>
 		</Unit>
