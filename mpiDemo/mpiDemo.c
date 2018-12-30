@@ -1,11 +1,9 @@
-// 
-// Torbert, 14 November 2016
-// 
+
 // MPI Demo
 //    mpicc mpiDemo.c
-//    time mpirun -np 4                                  a.out
-//    time mpirun -np 4 --mca orte_base_help_aggregate 0 a.out
-//    time mpirun -np 4 -mca btl ^openib                 a.out
+//    time mpirun -np 2                                  a.out
+//    time mpirun -np 2 --mca orte_base_help_aggregate 0 a.out
+//    time mpirun -np 2 -mca btl ^openib                 a.out
 // 
 //    time mpirun -np 6 -machinefile hosts.txt a.out
 // 
@@ -18,8 +16,7 @@
 // real    0m19.140s
 // user    1m3.061s
 // sys     0m13.251s
-// 
-// htop -u smtorbert
+//
 // 
 #include <stdio.h>
 // 
@@ -81,7 +78,7 @@ int main( int argc , char* argv[] )
         for( k = 1 ; k < 100000 ; k++ )
             for( j = 1 ; j < 100000 ; j++ )
             {
-                nbt = 0.314159 * rank ; // these are the worst workers ever
+                nbt = 0.314159 * rank ;
             }
         //
         MPI_Send( &nbt , 1 , MPI_DOUBLE , 0 , tag , MPI_COMM_WORLD ) ;

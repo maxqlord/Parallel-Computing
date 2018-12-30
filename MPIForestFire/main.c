@@ -54,7 +54,7 @@ int main( int argc , char* argv[] )
                 if(prob <= 1.04) {
                     MPI_Send(&prob, 1, MPI_DOUBLE, j, tag, MPI_COMM_WORLD);
                     array[j] = 1;
-                    printf("%f\n", prob);
+                    printf("Threshold: %f\n", prob);
                     prob += .05;
                 }
 
@@ -71,7 +71,7 @@ int main( int argc , char* argv[] )
                     //printf("exitedreceive\n");
                     j = status.MPI_SOURCE; //returns 1-something
                     //
-                    printf("%d %d %20.16f\n", j, size, nbt);
+                    printf("Normalized Steps: %f\n", nbt);
                 }
 
             }
