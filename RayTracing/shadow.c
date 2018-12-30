@@ -1,9 +1,5 @@
 //
 // Created by Max Lord on 2/22/18.
-//
-//
-// Torbert, 8 February 2016
-//
 #include <stdio.h>
 #include <math.h>
 //
@@ -266,7 +262,7 @@ int main(void) {
     //
     //
     //fout = fopen("allgreen.ppm", "w");
-    fout = fopen("circles.ppm", "w");
+    fout = fopen("shadows.ppm", "w");
     //
     fprintf(fout, "P3\n");
     fprintf(fout, "%d %d\n", M, N);

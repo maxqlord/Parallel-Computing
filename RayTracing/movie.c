@@ -1,15 +1,3 @@
-//
-// Created by Max Lord on 3/13/18.
-//
-
-
-
-//
-// Created by Max Lord on 2/22/18.
-//
-//
-// Torbert, 8 February 2016
-//
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -296,8 +284,7 @@ int main(void) {
             }
         }
         fclose(fout);
-
-        sprintf(fname, "convert movies.ppm f%07d.png", frameCount);
+        sprintf(fname, "convert movies.ppm Frames/f%07d.png", frameCount);
         system(fname);
     }
     //

@@ -1,6 +1,3 @@
-//
-// Torbert, 8 February 2016
-//
 #include <stdio.h>
 #include <math.h>
 //
